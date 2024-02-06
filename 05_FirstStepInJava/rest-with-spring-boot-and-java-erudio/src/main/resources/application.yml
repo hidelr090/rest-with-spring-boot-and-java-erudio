@@ -3,14 +3,17 @@ spring:
     active: development
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/new_database
+    url: jdbc:mysql://localhost:3306/new_database?useTimezone=true&serverTimezone=UTC&useSSL=false
     username: root
     password: Hidel@123
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       show-sql: false
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
+      
 server:
  port: 3333

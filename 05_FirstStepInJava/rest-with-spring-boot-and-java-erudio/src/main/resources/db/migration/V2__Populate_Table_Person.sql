@@ -1,0 +1,1 @@
+INSERT INTO `person` VALUES (2,'Rua Alfeneira','Pedrinha','Male','Moraes'),(3,'Rua Alfeneira','Pedrinha','Male','Moraes'),(4,'Rua Alfeneira','Pedrinha','Male','Moraes'),(5,'Rua Alfeneira','Pedrinha','Male','Moraes'),(6,'Rua Alfeneira','Pedrinha','Male','Moraes');
