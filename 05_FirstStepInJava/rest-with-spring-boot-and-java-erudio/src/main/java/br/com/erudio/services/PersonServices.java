@@ -3,9 +3,11 @@ package br.com.erudio.services;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.erudio.data.dto.v1.PersonDTO;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.model.Person;
 import br.com.erudio.repositories.PersonRepository;
@@ -18,28 +20,28 @@ public class PersonServices {
 	@Autowired
 	PersonRepository repository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	public List<Person> findAll(){
 		logger.info("finding all people");
 		
 		return repository.findAll();
 	}
 	
-	public Person findById(Long id) {
-		logger.info("finding one person");
-		Person person = new Person();
-		person.setAddress("Rua Alfeneira");
-		person.setFirstName("Pedrinha");
-		person.setLastName("Moraes");
-		person.setGender("Fazendo um som");
-		
-		return repository.findById(id)
+	public PersonDTO findById(Long id) {
+		Person person = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id"));
+		
+		return modelMapper.map(person, PersonDTO.class);
 	}
 	
 	
-	public Person create(Person person) {
+	public PersonDTO create(PersonDTO person) {
 		logger.info("create one person");
-		return repository.save(person);
+		Person mappedEntity = modelMapper.map(person, Person.class);
+		repository.save(mappedEntity);
+		return person;
 	}
 	
 	public Person update(Person person) {

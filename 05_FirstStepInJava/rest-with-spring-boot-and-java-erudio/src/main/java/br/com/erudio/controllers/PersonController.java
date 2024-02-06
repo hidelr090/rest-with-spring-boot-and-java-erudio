@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.erudio.data.dto.v1.PersonDTO;
 import br.com.erudio.model.Person;
 import br.com.erudio.services.PersonServices;
 
@@ -25,7 +26,7 @@ public class PersonController {
 	private PersonServices service;// == private PersonServices service = new PersonServices(); 
 	
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Person findById( @PathVariable(value = "id") Long id )throws Exception {
+	public PersonDTO findById( @PathVariable(value = "id") Long id )throws Exception {
 		return service.findById(id);
 	}
 
@@ -35,7 +36,7 @@ public class PersonController {
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Person create(@RequestBody Person person) {
+	public PersonDTO create(@RequestBody PersonDTO person) {
 		return service.create(person);
 	}
 	
