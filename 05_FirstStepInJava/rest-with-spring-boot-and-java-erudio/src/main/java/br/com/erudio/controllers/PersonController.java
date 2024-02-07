@@ -3,7 +3,6 @@ package br.com.erudio.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.erudio.data.dto.v1.PersonDTO;
 import br.com.erudio.model.Person;
 import br.com.erudio.services.PersonServices;
+import br.com.erudio.util.MediaType;
 
 @RestController
 @RequestMapping("/api/person/v1")
@@ -25,24 +25,24 @@ public class PersonController {
 	@Autowired
 	private PersonServices service;// == private PersonServices service = new PersonServices(); 
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public PersonDTO findById( @PathVariable(value = "id") Long id )throws Exception {
+	@GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
+	public PersonDTO findById( @PathVariable(value = "id") Long id)throws Exception {
 		return service.findById(id);
 	}
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
 	public List<Person> findAll(){
 		return service.findAll();
 	}
 	
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML}, consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
 	public PersonDTO create(@RequestBody PersonDTO person) {
 		return service.create(person);
 	}
 	
-	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Person update(@PathVariable(value = "id") Long id, @RequestBody Person person) {
-		return service.update(person);
+	@PutMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML}, consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
+	public PersonDTO update(@PathVariable(value = "id") Long id, @RequestBody PersonDTO person) {
+		return service.update(id,person);
 	}
 	
 	@DeleteMapping(value = "/{id}")

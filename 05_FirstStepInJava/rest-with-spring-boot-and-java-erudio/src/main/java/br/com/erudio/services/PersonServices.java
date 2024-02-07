@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,18 +45,14 @@ public class PersonServices {
 		return person;
 	}
 	
-	public Person update(Person person) {
+	public PersonDTO update(Long id, PersonDTO person) {
 		logger.info("update one person");
 		
-		Person entity = repository.findById(person.getId())
-		.orElseThrow(() -> new ResourceNotFoundException("No records found for this id"));
+		Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this id"));
+		BeanUtils.copyProperties(person, entity);
+		entity = repository.save(entity);
 		
-		entity.setAddress(person.getAddress());
-		entity.setFirstName(person.getFirstName());
-		entity.setLastName(person.getLastName());
-		entity.setGender(person.getGender());
-		
-		return repository.save(person);
+		return modelMapper.map(entity, PersonDTO.class);
 	}
 	
 	public void delete(Long id) {
